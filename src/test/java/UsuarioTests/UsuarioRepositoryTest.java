@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = MinhasfinancasApplication.class)
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UsuarioRepositoryTest {
 
     @Autowired
@@ -26,12 +30,22 @@ public class UsuarioRepositoryTest {
         // cenário
         Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
         usuarioRepository.save(usuario);
-
         // ação/ execução
         boolean result = usuarioRepository.existsByEmail("usuario@email.com");
-
         //verificação
         Assertions.assertThat(result).isTrue();
+
+    }
+
+    @Test
+    public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComEmail() {
+
+        // cenário
+        usuarioRepository.deleteAll();
+        // ação
+        boolean result = usuarioRepository.existsByEmail("usuario@email.com");
+        // verificacao
+        Assertions.assertThat(result).isFalse();
 
     }
 
