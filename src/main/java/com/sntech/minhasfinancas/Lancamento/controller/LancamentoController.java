@@ -1,5 +1,6 @@
 package com.sntech.minhasfinancas.Lancamento.controller;
 
+import com.sntech.minhasfinancas.Lancamento.enums.StatusLancamento;
 import com.sntech.minhasfinancas.Lancamento.enums.TipoLancamento;
 import com.sntech.minhasfinancas.Lancamento.lancamentoDTO.LancamentoDTO;
 import com.sntech.minhasfinancas.Lancamento.model.Lancamento;
@@ -90,9 +91,18 @@ public class LancamentoController {
         lancamento.setMes(dto.getMes());
         lancamento.setValor(dto.getValor());
 
-        Usuario usuario = usuarioService.obterPorId(dto.getUsuario()).orElseThrow(() -> new RegraNegocioException("Usuário não encontrado para o Id informado"));
+        Usuario usuario = usuarioService
+                .obterPorId(dto.getUsuario())
+                .orElseThrow(() -> new RegraNegocioException("Usuário não encontrado para o Id informado"));
 
         lancamento.setUsuario(usuario);
+        if (dto.getTipo() != null) {
+            lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
+        }
+
+        if (dto.getStatus() != null) {
+            lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+        }
 
         lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
         return lancamento;
