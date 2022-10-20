@@ -8,17 +8,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 @SpringBootTest(classes = MinhasfinancasApplication.class)
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@DataJpaTest // dar um rollback ao final de cada teste de método
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) //
 public class UsuarioRepositoryTest {
 
     @Autowired
@@ -47,6 +47,38 @@ public class UsuarioRepositoryTest {
         // verificacao
         Assertions.assertThat(result).isFalse();
 
+    }
+
+    @Test
+    public void devePersistirUmUsuarioNaBaseDeDados() {
+        //cenário
+        Usuario usuario = criarUsuario();
+        // acao
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        //verificacao
+        Assertions.assertThat(usuarioSalvo.getId()).isNotNull();
+
+    }
+
+//    @Test
+//    public void deveBuscarUmUsuarioPorEmail() {
+//        //cenario
+//        Usuario usuario = criarUsuario();
+//        usuarioRepository.save(usuario);
+//
+//        //verificacao
+//        Optional<Usuario> result = usuarioRepository.findByEmail("usuario@email.com");
+//        Assertions.assertThat(result.isPresent()).isTrue();
+//
+//    }
+
+    public static Usuario criarUsuario() {
+        return Usuario
+                .builder()
+                .nome("usuario")
+                .email("usuario@email.com")
+                .senha("senha")
+                .build();
     }
 
 }
