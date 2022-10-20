@@ -3,6 +3,7 @@ package com.sntech.minhasfinancas.Lancamento.service;
 import com.sntech.minhasfinancas.Lancamento.enums.StatusLancamento;
 import com.sntech.minhasfinancas.Lancamento.model.Lancamento;
 import com.sntech.minhasfinancas.Lancamento.repository.LancamentoRepository;
+import com.sntech.minhasfinancas.Usuario.model.Usuario;
 import com.sntech.minhasfinancas.exception.RegraNegocioException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
@@ -89,5 +91,10 @@ public class LancamentoServiceImpl implements LancamentoService {
             throw new RegraNegocioException("Informe um tipo de lançamento");
         }
 
+    }
+
+    @Override
+    public Optional<Lancamento> obterPorId(Long id) {
+        return lancamentoRepository.findById(id);
     }
 }
