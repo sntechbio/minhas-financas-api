@@ -1,6 +1,7 @@
 package com.sntech.minhasfinancas.Lancamento.service;
 
 import com.sntech.minhasfinancas.Lancamento.enums.StatusLancamento;
+import com.sntech.minhasfinancas.Lancamento.enums.TipoLancamento;
 import com.sntech.minhasfinancas.Lancamento.model.Lancamento;
 import com.sntech.minhasfinancas.Lancamento.repository.LancamentoRepository;
 import com.sntech.minhasfinancas.Usuario.model.Usuario;
@@ -96,5 +97,23 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     public Optional<Lancamento> obterPorId(Long id) {
         return lancamentoRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BigDecimal obterSaldoPorUsuario(Long id) {
+
+        BigDecimal receitas = lancamentoRepository.obterSaldoPorTipoLacamentoEUsuario(id, TipoLancamento.RECEITA);
+        BigDecimal despesas = lancamentoRepository.obterSaldoPorTipoLacamentoEUsuario(id, TipoLancamento.DESPESA);
+
+        if (receitas == null) {
+            receitas = BigDecimal.ZERO;
+        }
+
+        if (despesas == null) {
+            despesas = BigDecimal.ZERO;
+        }
+
+        return receitas.subtract(despesas);
     }
 }

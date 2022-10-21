@@ -2,6 +2,7 @@ package com.sntech.minhasfinancas.Lancamento.controller;
 
 import com.sntech.minhasfinancas.Lancamento.enums.StatusLancamento;
 import com.sntech.minhasfinancas.Lancamento.enums.TipoLancamento;
+import com.sntech.minhasfinancas.Lancamento.lancamentoDTO.AtualizaStatusDTO;
 import com.sntech.minhasfinancas.Lancamento.lancamentoDTO.LancamentoDTO;
 import com.sntech.minhasfinancas.Lancamento.model.Lancamento;
 import com.sntech.minhasfinancas.Lancamento.service.LancamentoService;
@@ -11,6 +12,7 @@ import com.sntech.minhasfinancas.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +76,26 @@ public class LancamentoController {
             }
         }).orElseGet(() -> new ResponseEntity("Lancamento não encontrado na base de Dados", HttpStatus.BAD_REQUEST));
     }
+
+    @PutMapping("{id}/atualiza-status")
+    public ResponseEntity atualizarStatus(@PathVariable("id") Long id, @RequestBody AtualizaStatusDTO atualizaStatusDTO) {
+        return lancamentoService.obterPorId(id).map(entity -> {
+           StatusLancamento statusSelecionado =  StatusLancamento.valueOf(atualizaStatusDTO.getStatus());
+           if(statusSelecionado == null) {
+               return ResponseEntity.badRequest().body("Não foi possível atualizar o status do lançamento, envie um status válido");
+           }
+
+           try {
+               entity.setStatus(statusSelecionado);
+               lancamentoService.atualizar(entity);
+               return ResponseEntity.ok(entity);
+           } catch (RegraNegocioException e) {
+               return ResponseEntity.badRequest().body(e.getMessage());
+           }
+
+        }).orElseGet(() -> new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST));
+    }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity deletar(@PathVariable("id") Long id) {
