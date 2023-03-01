@@ -5,7 +5,6 @@ import com.sntech.minhasfinancas.Lancamento.enums.TipoLancamento;
 import com.sntech.minhasfinancas.Lancamento.model.Lancamento;
 import com.sntech.minhasfinancas.Lancamento.repository.LancamentoRepository;
 import com.sntech.minhasfinancas.Lancamento.service.LancamentoService;
-import com.sntech.minhasfinancas.Usuario.model.Usuario;
 import com.sntech.minhasfinancas.exception.RegraNegocioException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

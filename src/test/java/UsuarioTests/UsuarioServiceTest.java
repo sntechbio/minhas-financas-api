@@ -1,26 +1,19 @@
 package UsuarioTests;
 
-import com.sntech.minhasfinancas.MinhasfinancasApplication;
 import com.sntech.minhasfinancas.Usuario.model.Usuario;
 import com.sntech.minhasfinancas.Usuario.repository.UsuarioRepository;
 import com.sntech.minhasfinancas.Usuario.service.UsuarioService;
 import com.sntech.minhasfinancas.Usuario.service.impl.UsuarioServiceImpl;
 import com.sntech.minhasfinancas.exception.ErroAutenticacao;
-import com.sntech.minhasfinancas.exception.RegraNegocioException;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 //@SpringBootTest(classes = MinhasfinancasApplication.class)

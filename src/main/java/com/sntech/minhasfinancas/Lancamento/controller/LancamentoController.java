@@ -12,11 +12,9 @@ import com.sntech.minhasfinancas.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @RestController
 @RequestMapping("/api/lancamentos")
