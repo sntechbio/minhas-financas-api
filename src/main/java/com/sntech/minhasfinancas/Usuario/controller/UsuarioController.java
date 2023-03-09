@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity salvar( @RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity salvar(@RequestBody @Valid UsuarioDTO usuarioDTO) {
 
         Usuario usuario = Usuario.builder()
                 .nome(usuarioDTO.getNome())
